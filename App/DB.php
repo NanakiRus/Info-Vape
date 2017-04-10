@@ -34,10 +34,17 @@ class DB
         return self::$instance;
     }
 
-    public function execute(string $sql)
+    public function execute(string $sql, $data = [])
     {
         $sth = $this->dbh->prepare($sql);
-        return $sth->execute();
+        $res = $sth->execute($data);
+
+        if (false === $res) {
+            $errors = implode(', ', $sth->errorInfo());
+            die('DB error in ' . $sql . ' -> ' . $errors);
+        } else {
+            return true;
+        }
     }
 
     public function query(string $sql, array $data = [], $class = null)
@@ -45,7 +52,8 @@ class DB
         $sth = $this->dbh->prepare($sql);
         $res = $sth->execute($data);
         if (false === $res) {
-            die('DB error in ' . $sql);
+            $errors = implode(', ', $sth->errorInfo());
+            die('DB error in ' . $sql . ' -> ' . $errors);
         }
         if (null === $class) {
             return $sth->fetchAll();

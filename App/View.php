@@ -1,8 +1,10 @@
 <?php
 
+namespace App;
+
 class View
 {
-    protected $data = [];
+    use MagicTrait;
 
     public function assign($name, $value)
     {
@@ -11,6 +13,9 @@ class View
 
     public function display($template)
     {
+        foreach ($this->data as $key => $value) {
+            $$key = $value;
+        }
         include $template;
     }
 

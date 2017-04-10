@@ -2,4 +2,10 @@
 
 require __DIR__ . '/autoload.php';
 
-$db = \App\DB::connect();
+$items = new \App\Model\Items();
+
+$cat = new \App\Controller\Category();
+
+
+
+var_dump($cat->getCategoryItemsById());
