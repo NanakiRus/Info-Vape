@@ -16,6 +16,13 @@ class Category
 
     public static $table = 'Category';
 
+    public static function findAllCategory()
+    {
+        $db = DB::getInstance();
+        $sql = 'SELECT * FROM ' . self::$table . ' WHERE ISNULL(parent_id)';
+        return $db->query($sql, [], self::class);
+    }
+
     public static function findChildCategoryById($id)
     {
         $db = DB::getInstance();

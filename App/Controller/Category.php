@@ -8,7 +8,13 @@ class Category
     extends Controller
 {
 
-    public function getChildCategory()
+    public function getAll()
+    {
+        $this->view->cat = \App\Model\Category::findAllCategory();
+        $this->view->display(__DIR__ . '/../../template/index.php');
+    }
+
+    public function getChild()
     {
         if (isset($_GET['id']) && '' !== $_GET['id']) {
 
@@ -17,7 +23,7 @@ class Category
         }
     }
 
-    public function getParentCategory()
+    public function getParent()
     {
         if (isset($_GET['parent_id']) && '' !== $_GET['parent_id']) {
 
@@ -28,10 +34,10 @@ class Category
 
     public function getPath()
     {
-        return $_SERVER['DOCUMENT_ROOT'];
+        return $_SERVER['REQUEST_URI'];
     }
 
-    public function getCategoryItemsById()
+    public function getById()
     {
         if (isset($_GET)) {
             if (isset($_GET['id']) && '' !== $_GET['id']) {
